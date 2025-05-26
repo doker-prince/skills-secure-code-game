@@ -20,6 +20,9 @@ def validorder(order: Order):
     net = 0
 
     for item in order.items:
+        # 修复点：只允许正数金额和数量，防止负数绕过校验
+        if item.amount < 0 or item.quantity < 0:
+            return "Invalid item value in order ID: %s" % order.id
         if item.type == 'payment':
             net += item.amount
         elif item.type == 'product':
